@@ -4,6 +4,8 @@
 
 using namespace std;
 
+vector< int > heap;
+
 int parent(int node)
 {
 	return int(node/2);
@@ -19,16 +21,16 @@ int right(int node)
 	return (2*node + 1);
 }
 
-void heapify(vector<int> heap, int parent)
+void heapify(int parent)
 {
 	int l = left(parent);
 	int r = right(parent);
 	int largest = parent;
-	if (heap[l] > heap[parent])
+	if (heap[l] > heap[parent] && l < heap.size())
 		largest = l;
 	else
 		largest = parent;
-	if (heap[r] > heap[largest])
+	if (heap[r] > heap[largest] && r < heap.size())
 	{
 		largest = r;
 	}
@@ -37,13 +39,12 @@ void heapify(vector<int> heap, int parent)
 		int temp = heap[parent];
 		heap[parent] = heap[largest];
 		heap[largest] = temp;
-		heapify(heap, largest);
+		heapify(largest);
 	}
 }
 
 int main(void)
 {
-	vector< int > heap;
 	int num_ele,i,ele;
 	cin>>num_ele;
 	heap.push_back(0);
@@ -52,8 +53,8 @@ int main(void)
 		cin>>ele;
 		heap.push_back(ele);
 	}
-	//heapify(heap, 1);
-	for (i = 0; i < num_ele; ++i)
+	heapify(1);
+	for (i = 1; i < heap.size(); ++i)
 	{
 		cout<<heap[i]<<" ";
 	}
